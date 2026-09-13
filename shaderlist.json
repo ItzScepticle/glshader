@@ -9,7 +9,7 @@
     "green-dots": "https://raw.githubusercontent.com/ItzScepticle/glshader/master/green-dots.frag",
     "noise-contrast": "https://raw.githubusercontent.com/ItzScepticle/glshader/master/contrast-noise.frag",
     "noise-normal": "https://raw.githubusercontent.com/ItzScepticle/glshader/master/normal-noise.frag",
-    "noise-purple": "https://raw.githubusercontent.com/ItzScepticle/glshader/master/normal-purple.frag",
+    "noise-purple": "https://raw.githubusercontent.com/ItzScepticle/glshader/master/noise-purple.frag",
     "red-dots": "https://raw.githubusercontent.com/ItzScepticle/glshader/master/red-dots.frag",
     "smoke": "https://raw.githubusercontent.com/ItzScepticle/glshader/master/smoke.frag",
     "technical": "https://raw.githubusercontent.com/ItzScepticle/glshader/master/technical.frag",
