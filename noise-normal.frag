@@ -1,13 +1,15 @@
-/* Contrast Noise */
-/* https://glslsandbox.com/e#99091.0 */
+/* Noise Shader */
+/* https://glslsandbox.com/e#81592.0 */
+/* https://glslsandbox.com/e#81562.0 */
 
 #version 460
 
 precision mediump float;
 
-uniform float time;
-uniform vec2 mouse;
-uniform vec2 resolution;
+layout(std140) uniform Uniforms {
+    float time;
+    vec2 resolution;
+};
 
 out vec4 fragmentColor;
 
@@ -64,8 +66,8 @@ float pattern(in vec2 p) {
 }
 
 vec3 palette(in float t) {
-    vec3 a = vec3(.2, .25, .55);
-    vec3 b = vec3(.5, .25, .14);
+    vec3 a = vec3(.5, .5, .55);
+    vec3 b = vec3(.45, .25, .14);
     vec3 c = vec3(1., 1., 1.);
     vec3 d = vec3(0., .15, .25);
 

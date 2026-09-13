@@ -5,8 +5,10 @@
 
 precision mediump float;
 
-uniform float time;
-uniform vec2 resolution;
+layout(std140) uniform Uniforms {
+    float time;
+    vec2 resolution;
+};
 
 out vec4 fragmentColor;
 
@@ -28,29 +30,29 @@ vec2 rand2(in vec2 p) {
 float voronoi(in vec2 v, in float e) {
 	vec2 p = floor(v);
 	vec2 f = fract(v);
-	
+
 	vec2 res = vec2(8.0);
-	
+
 	for(int j = -1; j <= 1; ++j)
 		for(int i = -1; i <= 1; ++i) {
 			vec2 b = vec2(i, j);
 			vec2 r = b - f + rand2(p + b);
-			
+
 			float d = max(abs(r.x), abs(r.y));
-			
+
 			if(d < res.x) {
 				res.y = res.x;
 				res.x = d;
 			}
-			
+
 			else if(d < res.y) {
 				res.y = d;
 			}
 		}
-	
+
 	vec2 c = sqrt(res);
 	float dist = c.y - c.x;
-	
+
 	return 1.0 - smoothstep(0.0, e, dist);
 }
 
@@ -62,30 +64,30 @@ void main(void) {
 	vec2 uv =  gl_FragCoord.xy / resolution * 4.0 - 2.0;
 	uv.y *= resolution.y / resolution.x;
 	uv *= rotate(0.3);
-	
-	float value = 0.0;     
+
+	float value = 0.0;
 	float light = 0.0;
-	
+
 	float f = 1.0;
 	float a = 0.7;
-	
-	
+
+
 	for(int i = 0; i < 3; ++i) {
 		float v1 = voronoi(uv * f + 1.0 + time * 0.2 , 0.1);
 		v1 = pow(v1, 2.0);
 		value += a * rand(v1 * 5.5 + 0.1);
-		
+
 		float v2 = voronoi(uv * f * 1.5 + 5.0 + time, 0.2) * 1.1;
 		v2 = pow(v2, 5.0);
 		light += pow(v1 * (0.5 * v2), 1.5);
-		
+
 		f *= 2.0;
 		a *= 0.6;
 	}
-	
+
 	vec3 color;
 	color += vec3(1.0, 0.5, 1.0) * value;
 	color += vec3(1.0, 0.5, 1.0) * light;
-	
+
 	fragmentColor = vec4(color, 1.0);
 }

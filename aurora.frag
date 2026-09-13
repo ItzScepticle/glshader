@@ -5,9 +5,10 @@
 
 precision mediump float;
 
-// glslsandbox uniforms
-uniform float time;
-uniform vec2 resolution;
+layout(std140) uniform Uniforms {
+    float time;
+    vec2 resolution;
+};
 
 out vec4 fragmentColor;
 

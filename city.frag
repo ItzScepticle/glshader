@@ -3,8 +3,10 @@
 precision mediump float;
 
 
-uniform float time;
-uniform vec2 resolution;
+layout(std140) uniform Uniforms {
+    float time;
+    vec2 resolution;
+};
 
 #ifdef FAST_DESCENT
 const vec3 cameraDir = normalize(vec3(-2.0, -1.0, -4.0));
@@ -304,5 +306,3 @@ void main(void)
 
     fragmentColor = vec4(color, 1.0);
 }
-
-

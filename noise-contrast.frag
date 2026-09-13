@@ -1,5 +1,5 @@
-/* Blue-Beige */
-/* https://glslsandbox.com/e#67474.0 */
+/* Contrast Noise */
+/* https://glslsandbox.com/e#99091.0 */
 
 #version 460
 
@@ -12,8 +12,8 @@ layout(std140) uniform Uniforms {
 
 out vec4 fragmentColor;
 
-float random(in vec2 st) {
-    return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453123);
+float random(in vec2 point) {
+    return fract(100.0 * sin(point.x + fract(100.0 * sin(point.y)))); // http://www.matteo-basei.it/noise
 }
 
 float noise(in vec2 st) {
@@ -40,20 +40,20 @@ float fbm(in vec2 p) {
     for (int i = 0; i < octaves; i++) {
         value += amp * (noise((p - vec2(1.)) * freq));
         freq *= 1.9;
-        amp *= .3;
+        amp *= .6;
     }
 
     return value;
 }
 
 float pattern(in vec2 p) {
-    vec2 offset = vec2(-.1);
+    vec2 offset = vec2(-.5);
 
-    vec2 aPos = vec2(sin(time * .1), sin(time * .1)) * 6.;
+    vec2 aPos = vec2(sin(time * .21), sin(time * .12)) * 6.;
     vec2 aScale = vec2(3.);
     float a = fbm(p * aScale + aPos);
 
-    vec2 bPos = vec2(sin(time * .1), sin(time * .1)) * 1.;
+    vec2 bPos = vec2(sin(time * .21), sin(time * .13)) * 1.;
     vec2 bScale = vec2(.5);
     float b = fbm((p + a) * bScale + bPos);
 
@@ -65,19 +65,19 @@ float pattern(in vec2 p) {
 }
 
 vec3 palette(in float t) {
-    vec3 a = vec3(.5, .5, .5);
-    vec3 b = vec3(.45, .25, .14);
+    vec3 a = vec3(.2, .25, .55);
+    vec3 b = vec3(.5, .25, .14);
     vec3 c = vec3(1., 1., 1.);
-    vec3 d = vec3(0., .1, .2);
+    vec3 d = vec3(0., .15, .25);
 
-    return a + b * cos(6.28318 * (c * t - d));
+    return a + b * cos(6.28318 * (c * t + d));
 }
 
 void main() {
     vec2 p = gl_FragCoord.xy / resolution.xy;
     p.x *= resolution.x / resolution.y;
 
-    float value = pow(pattern(p), 1.);
+    float value = pow(pattern(p), 2.);
     vec3 color = palette(value);
 
     fragmentColor = vec4(color, 1.);

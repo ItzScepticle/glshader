@@ -5,8 +5,10 @@
 
 precision mediump float;
 
-uniform float time;
-uniform vec2 resolution;
+layout(std140) uniform Uniforms {
+    float time;
+    vec2 resolution;
+};
 
 #define R_FACTOR 5.0
 #define G_FACTOR 0.0

@@ -1,22 +1,18 @@
-/* Noise Shader */
-/* https://glslsandbox.com/e#81592.0 */
-/* https://glslsandbox.com/e#81562.0 */
+/* Noise Purple */
+/* https://glslsandbox.com/e#100143.0 */
 
-#version 460
+precision highp float;
 
-precision mediump float;
+layout(std140) uniform Uniforms {
+    float time;
+    vec2 resolution;
+};
 
-uniform float time;
-uniform vec2 mouse;
-uniform vec2 resolution;
-
-out vec4 fragmentColor;
-
-float random(in vec2 point) {
+float random (in vec2 point) {
     return fract(100.0 * sin(point.x + fract(100.0 * sin(point.y)))); // http://www.matteo-basei.it/noise
 }
 
-float noise(in vec2 st) {
+float noise (in vec2 st) {
     vec2 i = floor(st);
     vec2 f = fract(st);
 
@@ -27,12 +23,12 @@ float noise(in vec2 st) {
 
     vec2 u = f * f * (3. - 2. * f);
 
-    return mix(a, b, u.x) + (c - a) * u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
+    return mix(a, b, u.x) + (c - a)* u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
 }
 
-#define octaves 10
+    #define octaves 10
 
-float fbm(in vec2 p) {
+float fbm (in vec2 p) {
     float value = 0.;
     float freq = 1.;
     float amp = .5;
@@ -49,11 +45,11 @@ float fbm(in vec2 p) {
 float pattern(in vec2 p) {
     vec2 offset = vec2(-.5);
 
-    vec2 aPos = vec2(sin(time * .21), sin(time * .12)) * 6.;
+    vec2 aPos = vec2(sin(time * .05), sin(time * .1)) * 6.;
     vec2 aScale = vec2(3.);
     float a = fbm(p * aScale + aPos);
 
-    vec2 bPos = vec2(sin(time * .21), sin(time * .13)) * 1.;
+    vec2 bPos = vec2(sin(time * .1), sin(time * .1)) * 1.;
     vec2 bScale = vec2(.5);
     float b = fbm((p + a) * bScale + bPos);
 
@@ -65,10 +61,10 @@ float pattern(in vec2 p) {
 }
 
 vec3 palette(in float t) {
-    vec3 a = vec3(.5, .5, .55);
-    vec3 b = vec3(.45, .25, .14);
-    vec3 c = vec3(1., 1., 1.);
-    vec3 d = vec3(0., .15, .25);
+    vec3 a = vec3(.53456, .2, .8);
+    vec3 b = vec3(.25, .25, .24);
+    vec3 c = vec3(1. ,1., 1.);
+    vec3 d = vec3(.2, .1, .2);
 
     return a + b * cos(6.28318 * (c * t + d));
 }
@@ -78,7 +74,7 @@ void main() {
     p.x *= resolution.x / resolution.y;
 
     float value = pow(pattern(p), 2.);
-    vec3 color = palette(value);
+    vec3 color  = palette(value);
 
-    fragmentColor = vec4(color, 1.);
+    gl_FragColor = vec4(color, 1.);
 }

@@ -8,8 +8,10 @@ precision mediump float;
 #define PI2 6.28318530718
 #define MAX_ITER 5
 
-uniform float time;
-uniform vec2 resolution;
+layout(std140) uniform Uniforms {
+    float time;
+    vec2 resolution;
+};
 
 out vec4 fragmentColor;
 

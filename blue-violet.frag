@@ -6,9 +6,10 @@
 
 precision mediump float;
 
-uniform float time;
-uniform vec2 mouse;
-uniform vec2 resolution;
+layout(std140) uniform Uniforms {
+    float time;
+    vec2 resolution;
+};
 
 const int complexity = 20;
 const float fluid_speed = 5.0;
