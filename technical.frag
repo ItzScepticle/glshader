@@ -86,8 +86,8 @@ void main(void) {
 	}
 
 	vec3 color;
-	color += vec3(1.0, 0.5, 1.0) * value;
-	color += vec3(1.0, 0.5, 1.0) * light;
+	color += vec3(0.75, 0.0, 1.0) * value;
+	color += vec3(0.75, 0.0, 1.0) * light;
 
 	fragmentColor = vec4(color, 1.0);
 }
